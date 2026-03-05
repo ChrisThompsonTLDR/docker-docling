@@ -27,6 +27,10 @@ docker run -p 8000:8000 \
   ghcr.io/christhompsontldr/docker-docling:latest
 ```
 
+## GitHub Actions
+
+Create `.github/workflows/build-push.yml` to build and push to ghcr.io on push to main. The workflow uses `docker/build-push-action` and `ghcr.io/${{ github.repository_owner }}/docker-docling:latest`. A PAT with `workflow` scope is required to push workflow files.
+
 ## License
 
 MIT
