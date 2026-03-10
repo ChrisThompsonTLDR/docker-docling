@@ -3,7 +3,9 @@
 name: Delete docker-docling-ollama package
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/delete-ollama-package.yml']
 
 jobs:
   delete:
@@ -13,7 +15,9 @@ jobs:
     steps:
       - name: Delete package
         run: |
-          curl -X DELETE \
+          resp=$(curl -s -w "%{http_code}" -o /tmp/delete_resp -X DELETE \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/user/packages/container/docker-docling-ollama
+            https://api.github.com/user/packages/container/docker-docling-ollama)
+          # 204=deleted, 404=already gone
+          [[ "$resp" == "204" || "$resp" == "404" ]] && echo "OK (HTTP $resp)" || (cat /tmp/delete_resp; exit 1)
