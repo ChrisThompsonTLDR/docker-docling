@@ -1,0 +1,19 @@
+# One-time: delete docker-docling-ollama package so docker-docling-ollama repo can create it
+# Remove this file after running
+name: Delete docker-docling-ollama package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: Delete package
+        run: |
+          curl -X DELETE \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/user/packages/container/docker-docling-ollama
