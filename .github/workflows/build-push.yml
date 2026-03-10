@@ -20,9 +20,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push docker-docling
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: ghcr.io/christhompsontldr/docker-docling:latest
+
+      - name: Build and push docker-docling-ollama
+        uses: docker/build-push-action@v6
+        with:
+          context: ./ollama
+          push: true
+          tags: ghcr.io/christhompsontldr/docker-docling-ollama:latest
